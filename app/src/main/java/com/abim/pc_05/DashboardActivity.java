@@ -23,11 +23,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             startActivity(i);
         }
         else if (id == R.id.card_profil){
-            Intent i = new Intent(DashboardActivity.this, VaksinActivity.class);
+            Intent i = new Intent(DashboardActivity.this, ProfilActivity.class);
             startActivity(i);
         }
         else if (id == R.id.card_info){
-            Intent i = new Intent(DashboardActivity.this, VaksinActivity.class);
+            Intent i = new Intent(DashboardActivity.this, InfoActivity.class);
             startActivity(i);
         }
         else if (id == R.id.card_logout){

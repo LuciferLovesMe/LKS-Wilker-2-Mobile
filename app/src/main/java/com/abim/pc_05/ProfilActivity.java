@@ -26,6 +26,6 @@ public class ProfilActivity extends AppCompatActivity {
         tv_profilename.setText(s.getNama());
         tv_profilenik.setText(s.getNik());
         tv_ttl.setText(s.getTtl());
-        tv_hp.setText(s.getNohp());
+//        tv_hp.setText(s.getNohp());
     }
 }

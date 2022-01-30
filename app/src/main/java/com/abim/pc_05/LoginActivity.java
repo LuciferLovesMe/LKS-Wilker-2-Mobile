@@ -18,6 +18,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -90,10 +91,10 @@ public class LoginActivity extends AppCompatActivity {
                         dialog.show();
                     }
                     else{
-//                        doLogin();
-                        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                        startActivity(intent);
-                        finish();
+                        doLogin();
+//                        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+//                        startActivity(intent);
+//                        finish();
                     }
                 }
             }
@@ -103,19 +104,17 @@ public class LoginActivity extends AppCompatActivity {
     void doLogin(){
         String nik = et_nik.getText().toString();
         String noHp = et_no_hp.getText().toString();
-        JSONArray jso = new JSONArray();
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, MyRequest.getLoginURL(), null, new Response.Listener<JSONArray>() {
+        StringRequest request = new StringRequest(Request.Method.POST, MyRequest.getLoginURL(), new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(String response) {
                 try {
-                    JSONObject object = response.getJSONObject(0);
+                    JSONObject object = new JSONObject(response);
                     s.setUser(object.getString("nama"),object.getString("nik"), object.getString("tempat_lahir"), object.getString("noHp"), object.getString("tanggal_lahir"));
                     Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
-                }
-                catch (Exception  ex){
+                } catch (Exception exception) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(ctx);
                     dialog.setMessage("Tidak Dapat menemukan User!");
                     dialog.setTitle("Terjadi Kesalahan");
@@ -152,6 +151,54 @@ public class LoginActivity extends AppCompatActivity {
                 return params;
             }
         };
+
+//        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, MyRequest.getLoginURL(), null, new Response.Listener<JSONArray>() {
+//            @Override
+//            public void onResponse(JSONArray response) {
+//                try {
+//                    JSONObject object = response.getJSONObject(0);
+//                    s.setUser(object.getString("nama"),object.getString("nik"), object.getString("tempat_lahir"), object.getString("noHp"), object.getString("tanggal_lahir"));
+//                    Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//                catch (Exception  ex){
+//                    AlertDialog.Builder dialog = new AlertDialog.Builder(ctx);
+//                    dialog.setMessage("Tidak Dapat menemukan User!");
+//                    dialog.setTitle("Terjadi Kesalahan");
+//                    dialog.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    });
+//                    dialog.show();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                AlertDialog.Builder dialog = new AlertDialog.Builder(ctx);
+//                dialog.setMessage(""+error);
+//                dialog.setTitle("");
+//                dialog.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                dialog.show();
+//            }
+//        }){
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String > params = new HashMap<>();
+//                params.put("nik", nik);
+//                params.put("noHp", noHp);
+//
+//                return params;
+//            }
+//        };
 
         queue.add(request);
     }
